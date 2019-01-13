@@ -12,8 +12,14 @@ defmodule Xkcd287 do
       :world
 
   """
-  def hello do
-    :world
+  def parsefile(opts) do
+    [total | menu_rows] = File.read!(opts.args.infile) |> String.split("\n", trim: true)
+    total = if opts.options.total do
+              opts.options.total
+            else
+              total # TODO parse currency
+            end
+    [total: total, menu: menu_rows]
   end
 
   def main(argv) do
@@ -43,8 +49,8 @@ defmodule Xkcd287 do
           parser: :string,
           required: false
         ],
-        override_total: [
-          value_name: "OVERRIDE_TOTAL",
+        total: [
+          value_name: "TOTAL",
           short: "-t",
           long: "--total",
           help: "overide total in the input file",
@@ -61,6 +67,6 @@ defmodule Xkcd287 do
           default: "recursive"
         ]
       ]
-    ) |> Optimus.parse!(argv) |> IO.inspect
+    ) |> Optimus.parse!(argv) |> parsefile |> IO.inspect
   end
 end
