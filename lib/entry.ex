@@ -52,6 +52,6 @@ defmodule Entry do
     %Money{amount: 172500, currency: :USD}
   """
   def total(entries) do
-    Enum.reduce(entries, Money.new(0), fn(entry, total) -> Money.add(total, Entry.subtotal(entry)) end)
+    Enum.map(entries, &subtotal/1) |> Enum.reduce(&Money.add/2)
   end
 end
