@@ -17,8 +17,9 @@ defmodule Xkcd287 do
     total = if opts.options.total do
               opts.options.total
             else
-              total # TODO parse currency
+              Money.parse!(total)
             end
+    # TODO range check total
     [total: total, menu: menu_rows]
   end
 
@@ -54,7 +55,9 @@ defmodule Xkcd287 do
           short: "-t",
           long: "--total",
           help: "overide total in the input file",
-          parser: :float, # TODO: currency parse, range check
+          parser: fn(s) ->
+                    Money.parse(s)
+                  end,
           required: false
         ],
         method: [
