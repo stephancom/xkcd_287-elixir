@@ -22,7 +22,7 @@ defmodule Xkcd287 do
     unless Money.positive?(total) do
       raise "desired total cannot be negative"
     end
-    menu = Enum.map(menu_rows, fn r -> Item.parse(r) end)
+    menu = Item.parse(menu_rows)
     {total, menu}
   end
 

@@ -10,6 +10,8 @@ defmodule Entry do
 
   defstruct item: Item, quantity: 1
 
+  @type order() :: [t, ...]
+
   @spec new(Item.t, pos_integer) :: t
   @doc ~S"""
   Create a new `Entry` struct with an Item and quantity
@@ -35,7 +37,7 @@ defmodule Entry do
   def subtotal(%Entry{item: %Item{name: _, price: price}, quantity: quantity}),
     do: Money.multiply(price, quantity)
 
-  @spec total([t, ...]) :: Money.t
+  @spec total(order()) :: Money.t
   @doc ~S"""
   Returns the total of a list of entries
 
