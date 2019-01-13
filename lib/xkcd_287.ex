@@ -19,8 +19,11 @@ defmodule Xkcd287 do
             else
               Money.parse!(total)
             end
-    # TODO range check total
-    [total: total, menu: menu_rows]
+    unless Money.positive?(total) do
+      raise "desired total cannot be negative"
+    end
+    menu = Enum.map(menu_rows, fn r -> Item.parse(r) end)
+    [total: total, menu: menu]
   end
 
   def main(argv) do
@@ -42,14 +45,6 @@ defmodule Xkcd287 do
       ],
       flags: [],
       options: [
-        restaurant_name: [
-          value_name: "RESTAURANT_NAME",
-          short: "-r",
-          long: "--restaurant",
-          help: "name of restaurant",
-          parser: :string,
-          required: false
-        ],
         total: [
           value_name: "TOTAL",
           short: "-t",
