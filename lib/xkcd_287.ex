@@ -3,15 +3,15 @@ defmodule Xkcd287 do
   Documentation for Xkcd287.
   """
 
-  @doc """
-  Hello world.
+  # @doc """
+  # Hello world.
 
-  ## Examples
+  # ## Examples
 
-      iex> Xkcd287.hello
-      :world
+  #     iex> Xkcd287.hello
+  #     :world
 
-  """
+  # """
   def parsefile(opts) do
     [total | menu_rows] = File.read!(opts.args.infile) |> String.split("\n", trim: true)
     total = if opts.options.total do
@@ -23,7 +23,12 @@ defmodule Xkcd287 do
       raise "desired total cannot be negative"
     end
     menu = Enum.map(menu_rows, fn r -> Item.parse(r) end)
-    [total: total, menu: menu]
+    {total, menu}
+  end
+
+  def findorders({total, menu}) do
+    total |> IO.inspect
+    menu |> IO.inspect
   end
 
   def main(argv) do
@@ -54,17 +59,8 @@ defmodule Xkcd287 do
                     Money.parse(s)
                   end,
           required: false
-        ],
-        method: [
-          value_name: "METHOD",
-          short: "-m",
-          long: "--method",
-          help: "method to use (recursive or montecarlo)",
-          parser: :string, # TODO: check in possible options, get options from global
-          required: false,
-          default: "recursive"
         ]
       ]
-    ) |> Optimus.parse!(argv) |> parsefile |> IO.inspect
+    ) |> Optimus.parse!(argv) |> parsefile |> findorders
   end
 end
