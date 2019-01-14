@@ -47,10 +47,10 @@ defmodule Xkcd287 do
           required: false
         ]
       ]
-    ) |>
-    Optimus.parse!(argv) |>
-    parsefile |>
-    Orderer.generate |> 
-    Enum.each( fn order -> Entry.print(order) end)
+    )
+    |> Optimus.parse!(argv)
+    |> parsefile
+    |> Orderer.generate
+    |> Enum.each( fn order -> Entry.print(order) end)
   end
 end
