@@ -19,7 +19,7 @@ defmodule Item do
   ## Examples
 
     iex> Item.new("grilled cheese", Money.parse!("$1.25"))
-    %Item{name: "grilled cheese", price: %Money{amount: 12500, currency: :USD}}
+    %Item{name: "grilled cheese", price: %Money{amount: 125, currency: :USD}}
 
   """
   def new(name, %Money{amount: amount} = price) when amount > 0,
@@ -32,10 +32,10 @@ defmodule Item do
   ## Examples
 
     iex> Item.parse("cheezborger,$2.50")
-    %Item{name: "cheezborger", price: %Money{amount: 25000, currency: :USD}}
+    %Item{name: "cheezborger", price: %Money{amount: 250, currency: :USD}}
 
     iex> Item.parse("caviar,$99.99")
-    %Item{name: "caviar", price: %Money{amount: 999900, currency: :USD}}
+    %Item{name: "caviar", price: %Money{amount: 9999, currency: :USD}}
 
   """
   def parse(string) when is_binary(string) do
@@ -50,9 +50,9 @@ defmodule Item do
   ## Examples
 
     iex> Item.parse(["coffee,$2.00","tea,$1.00","me,$9.99"])
-    [%Item{name: "coffee", price: %Money{amount: 20000, currency: :USD}},
-     %Item{name: "tea", price: %Money{amount: 10000, currency: :USD}},
-     %Item{name: "me", price: %Money{amount: 99900, currency: :USD}}]
+    [%Item{name: "coffee", price: %Money{amount: 200, currency: :USD}},
+     %Item{name: "tea", price: %Money{amount: 100, currency: :USD}},
+     %Item{name: "me", price: %Money{amount: 999, currency: :USD}}]
   """
   def parse(menu_rows) when is_list(menu_rows) do
     Enum.map(menu_rows, fn r -> Item.parse(r) end)
@@ -69,11 +69,11 @@ defmodule Item do
     # [1,2,3]
 
     iex> Item.sort(Item.parse(["last,$5.00","first,$1.00","middle,$3.00","second,$2.00","penultimate,$4.00"]))
-    [%Item{name: "last", price: %Money{amount: 50000, currency: :USD}},
-     %Item{name: "penultimate", price: %Money{amount: 40000, currency: :USD}},
-     %Item{name: "middle", price: %Money{amount: 30000, currency: :USD}},
-     %Item{name: "second", price: %Money{amount: 20000, currency: :USD}},
-     %Item{name: "first", price: %Money{amount: 10000, currency: :USD}}]
+    [%Item{name: "last", price: %Money{amount: 500, currency: :USD}},
+     %Item{name: "penultimate", price: %Money{amount: 400, currency: :USD}},
+     %Item{name: "middle", price: %Money{amount: 300, currency: :USD}},
+     %Item{name: "second", price: %Money{amount: 200, currency: :USD}},
+     %Item{name: "first", price: %Money{amount: 100, currency: :USD}}]
   """
   def sort(menu) do
     Enum.sort(menu, &(Money.compare(&1.price, &2.price) != -1))

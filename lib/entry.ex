@@ -19,7 +19,7 @@ defmodule Entry do
   ## Examples
 
     iex> Entry.new(Item.parse("caviar,$99.99"), 2)
-    %Entry{item: %Item{name: "caviar", price: %Money{amount: 999900, currency: :USD}}, quantity: 2}
+    %Entry{item: %Item{name: "caviar", price: %Money{amount: 9999, currency: :USD}}, quantity: 2}
 
   """ 
   def new(item, quantity) when quantity > 0,
@@ -32,7 +32,7 @@ defmodule Entry do
   ## Examples
 
     iex> Entry.subtotal(Entry.new(Item.parse("caviar,$99.99"), 2))
-    %Money{amount: 1999800, currency: :USD}
+    %Money{amount: 19998, currency: :USD}
   """
   def subtotal(%Entry{item: %Item{name: _, price: price}, quantity: quantity}),
     do: Money.multiply(price, quantity)
@@ -49,23 +49,10 @@ defmodule Entry do
     ...> Entry.new(Item.parse("onion rings,$2.00"), 1),
     ...> Entry.new(Item.parse("fountain drink,$1.00"), 3)
     ...> ])
-    %Money{amount: 172500, currency: :USD}
+    %Money{amount: 1725, currency: :USD}
   """
   def total(entries) do
     Enum.map(entries, &subtotal/1) |> Enum.reduce(&Money.add/2)
-  end
-
-  @spec to_row(Entry.t) :: %{quantity: integer, item: String.t, cost: String.t}
-  @doc ~S"""
-  Returns an map containing appropriate table colums for output
-
-  ## Examples
-
-    iex> Entry.to_row(Entry.new(Item.parse("chicken wing,$0.28"), 120))
-    %{cost: "$3,360.00", item: "chicken wing", quantity: 120}
-  """
-  def to_row(entry) do
-    %{quantity: entry.quantity, item: entry.item.name, cost: Money.to_string(Entry.subtotal(entry), separator: ",", delimeter: ".")}
   end
 
   @spec print(order()) :: :ok
@@ -73,6 +60,8 @@ defmodule Entry do
   Prints a list of entries
   """
   def print(entries) do
-    Scribe.print(Enum.map(entries, &to_row/1))
+    Scribe.print(entries, data: [{"Quantity", :quantity}, 
+                                 {"Item", fn(e) -> e.item.name end},
+                                 {"Cost", fn(e) -> Money.to_string(Entry.subtotal(e)) end}])
   end
 end
