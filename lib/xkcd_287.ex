@@ -3,15 +3,6 @@ defmodule Xkcd287 do
   Documentation for Xkcd287.
   """
 
-  # @doc """
-  # Hello world.
-
-  # ## Examples
-
-  #     iex> Xkcd287.hello
-  #     :world
-
-  # """
   def parsefile(opts) do
     [total | menu_rows] = File.read!(opts.args.infile) |> String.split("\n", trim: true)
     total = if opts.options.total do
@@ -56,6 +47,10 @@ defmodule Xkcd287 do
           required: false
         ]
       ]
-    ) |> Optimus.parse!(argv) |> parsefile |> Orderer.generate |> IO.inspect
+    ) |>
+    Optimus.parse!(argv) |>
+    parsefile |>
+    Orderer.generate |> 
+    Enum.each( fn order -> Entry.print(order) end)
   end
 end

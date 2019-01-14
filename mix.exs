@@ -4,7 +4,7 @@ defmodule Xkcd287.Mixfile do
   def project do
     [app: :xkcd_287,
      version: "0.1.0",
-     elixir: "~> 1.4",
+     elixir: "~> 1.7",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      escript: [main_module: Xkcd287],
@@ -31,7 +31,8 @@ defmodule Xkcd287.Mixfile do
   defp deps do
     [
       {:optimus, "~> 0.1.0"},
-      {:money, "~> 1.3"}
+      {:money, "~> 1.3"},
+      {:scribe, "~> 0.8"}
     ]
   end
 end

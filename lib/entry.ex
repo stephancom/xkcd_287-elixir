@@ -54,4 +54,25 @@ defmodule Entry do
   def total(entries) do
     Enum.map(entries, &subtotal/1) |> Enum.reduce(&Money.add/2)
   end
+
+  @spec to_row(Entry.t) :: %{quantity: integer, item: String.t, cost: String.t}
+  @doc ~S"""
+  Returns an map containing appropriate table colums for output
+
+  ## Examples
+
+    iex> Entry.to_row(Entry.new(Item.parse("chicken wing,$0.28"), 120))
+    %{cost: "$3,360.00", item: "chicken wing", quantity: 120}
+  """
+  def to_row(entry) do
+    %{quantity: entry.quantity, item: entry.item.name, cost: Money.to_string(Entry.subtotal(entry), separator: ",", delimeter: ".")}
+  end
+
+  @spec print(order()) :: :ok
+  @doc ~S"""
+  Prints a list of entries
+  """
+  def print(entries) do
+    Scribe.print(Enum.map(entries, &to_row/1))
+  end
 end
