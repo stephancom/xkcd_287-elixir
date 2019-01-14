@@ -1,3 +1,12 @@
+#     by_stephan.com_     ____  ___ _____ 
+# __  _| | _____ __| |   |___ \( _ )___  |
+# \ \/ / |/ / __/ _` |     __) / _ \  / / 
+#  >  <|   < (_| (_| |    / __/ (_) |/ /  
+# /_/\_\_|\_\___\__,_|___|_____\___//_/   
+#                   |_____|               
+
+# based on XKCD 287 - https://xkcd.com/287/
+
 defmodule Xkcd287 do
   @moduledoc """
   Documentation for Xkcd287.
