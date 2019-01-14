@@ -16,7 +16,7 @@ defmodule Xkcd287.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger]]
+    [extra_applications: [:logger, :table_rex]]
   end
 
   # Dependencies can be Hex packages:
@@ -32,7 +32,7 @@ defmodule Xkcd287.Mixfile do
     [
       {:optimus, "~> 0.1.0"},
       {:money, "~> 1.3"},
-      {:scribe, "~> 0.8"}
+      {:table_rex, "~> 2.0.0"}
     ]
   end
 end

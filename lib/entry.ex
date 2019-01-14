@@ -60,8 +60,18 @@ defmodule Entry do
   Prints a list of entries
   """
   def print(entries) do
-    Scribe.print(entries, data: [{"Quantity", :quantity}, 
-                                 {"Item", fn(e) -> e.item.name end},
-                                 {"Cost", fn(e) -> Money.to_string(Entry.subtotal(e)) end}])
+    alias TableRex.Table
+    rows = Enum.map(entries,
+                    fn(entry) ->
+                      [entry.quantity,
+                       entry.item.name,
+                       Money.to_string(Entry.subtotal(entry))]
+                    end)
+    header = ["", "Item", "Cost"]
+    Table.new(rows, header)
+    |> Table.put_column_meta(0, align: :right)
+    |> Table.put_column_meta(2, align: :right)
+    |> Table.render!
+    |> IO.puts
   end
 end
