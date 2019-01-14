@@ -23,12 +23,7 @@ defmodule Xkcd287 do
       raise "desired total cannot be negative"
     end
     menu = Item.parse(menu_rows)
-    {total, menu}
-  end
-
-  def findorders({total, menu}) do
-    total |> IO.inspect
-    menu |> IO.inspect
+    {menu, total}
   end
 
   def main(argv) do
@@ -61,6 +56,6 @@ defmodule Xkcd287 do
           required: false
         ]
       ]
-    ) |> Optimus.parse!(argv) |> parsefile |> findorders
+    ) |> Optimus.parse!(argv) |> parsefile |> Orderer.generate |> IO.inspect
   end
 end

@@ -8,7 +8,7 @@ defmodule Item do
     price: Money.t
   }
 
-  defstruct name: "food item", price: Money.new(1)
+  defstruct name: "", price: Money.new(1)
 
   @type menu() :: [t, ...]
 
@@ -56,5 +56,26 @@ defmodule Item do
   """
   def parse(menu_rows) when is_list(menu_rows) do
     Enum.map(menu_rows, fn r -> Item.parse(r) end)
+  end
+
+  @spec sort(menu()) :: menu()
+  @doc ~S"""
+  Sorts a list of menu items in descending price order
+
+  ## Examples
+
+    # iex> Enum.map(&(&1.price.amount))
+    # iex> Enum.map(Item.parse(["last,$5.00","first,$1.00","middle,$3.00","second,$2.00","penultimate,$4.00"]))
+    # [1,2,3]
+
+    iex> Item.sort(Item.parse(["last,$5.00","first,$1.00","middle,$3.00","second,$2.00","penultimate,$4.00"]))
+    [%Item{name: "last", price: %Money{amount: 50000, currency: :USD}},
+     %Item{name: "penultimate", price: %Money{amount: 40000, currency: :USD}},
+     %Item{name: "middle", price: %Money{amount: 30000, currency: :USD}},
+     %Item{name: "second", price: %Money{amount: 20000, currency: :USD}},
+     %Item{name: "first", price: %Money{amount: 10000, currency: :USD}}]
+  """
+  def sort(menu) do
+    Enum.sort(menu, &(Money.compare(&1.price, &2.price) != -1))
   end
 end
