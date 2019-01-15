@@ -1,4 +1,4 @@
-# Xkcd287
+# Xkcd287 [![Build Status](https://travis-ci.org/stephancom/xkcd_287-elixir.svg?branch=master)](https://travis-ci.org/stephancom/xkcd_287-elixir)
 
 my first Elixir program
 
